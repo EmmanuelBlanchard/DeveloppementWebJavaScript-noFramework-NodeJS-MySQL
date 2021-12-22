@@ -10,7 +10,10 @@ var gererServeur = function(requete,reponse) {
     var urlQueryString = querystring.parse(monUrl.query);
     var extension = monUrl.pathname.substring(monUrl.pathname.indexOf("."),monUrl.pathname.length);
     gestionPage.initialisation(monUrl, extension, requete,reponse,urlQueryString);
-    console.log(gestionPage.queryString);
+    
+    if(gestionPage.url.pathname !== "/favicon.ico") {
+        gestionPage.envoyerDataToUser();
+    }  
 }
 
 var serveur = http.createServer(gererServeur);
