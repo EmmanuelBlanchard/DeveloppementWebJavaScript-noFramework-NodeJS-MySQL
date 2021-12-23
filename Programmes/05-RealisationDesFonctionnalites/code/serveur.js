@@ -13,9 +13,20 @@ var gererServeur = function(requete,reponse) {
     var extension = monUrl.pathname.substring(monUrl.pathname.indexOf("."),monUrl.pathname.length);
     gestionPage.initialisation(monUrl, extension, requete,reponse,urlQueryString);
     
-    if(gestionPage.url.pathname !== "/favicon.ico") {
-        gererFichier();
-    }  
+    if(requete.method === "POST") {
+        var body = "";
+        requete.on("data", chunk => {
+            body += chunk.toString();
+        });
+        requete.on("end", () => {
+            var obj = querystring.parse(body);
+            questionnaireManager.creerQuestionBD(obj);
+        })
+    } else {
+        if(gestionPage.url.pathname !== "/favicon.ico") {
+            gererFichier();
+        }
+    }
 }
 
 function gererFichier() {

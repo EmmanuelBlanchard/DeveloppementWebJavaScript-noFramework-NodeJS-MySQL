@@ -34,14 +34,32 @@ var questionnaireManager = {
         bd.connexion();
         var req = "SELECT * FROM questionnaire";
         bd.instance.query(req, function (error, results, fields) {
+            if(error) throw error;
             var optionTxt = "<option></option>";
             for(var ligne of results) {
                 optionTxt += "<option value='" + ligne.idquestionnaire + "'>";
                 optionTxt += ligne.nomQuestionnaire + " : " + ligne.descriptionQuestionnaire;
                 optionTxt += "</option>";
             }
+            var validation = "";
+            if(gestionPage.queryString.confirm === "yes") {
+                validation += '<div class="alert alert-success" role="alert">';
+                validation += 'La question a bien été créée en BD';
+                validation += '</div>';
+            }
+            gestionPage.objetToSupplant.validationSaisie = validation;
             gestionPage.objetToSupplant.optionQuestionnaires = optionTxt;
             gestionPage.envoyerDataToUser();
+        });
+        bd.deconnexion();
+    },
+
+    creerQuestionBD : function(info) {
+        bd.connexion();
+        var req = "INSERT INTO question (descriptionQuestion,reponseAQuestion,reponseBQuestion,reponseCQuestion,reponseDQuestion,bonneReponseQuestion,idquestionnaire) VALUES (?,?,?,?,?,?,?);";
+        bd.instance.query(req, [info.question, info.reponseA, info.reponseB, info.reponseC, info.reponseD, info.bonneReponse, parseInt(info.questionnaire)] , function (error, results, fields) {
+            if (error) throw error;
+            gestionPage.reponse.end("<script>document.location.href='creerQuestion.html?confirm=yes'</script>")
         });
         bd.deconnexion();
     }

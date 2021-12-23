@@ -1,9 +1,10 @@
 <div class="container">
     <h1 class="bg-primary text-white border border-dark mt-2 p-3 rounded-lg">Créer une question</h1>
-    <form>
+    {validationSaisie}
+    <form method="POST" action="validationCreationQuestion.html">
         <div class="form-group">
             <label for="question">Questionnaire :</label>
-            <select class="form-control">
+            <select class="form-control" name="questionnaire">
                     {optionQuestionnaires}
             </select>
         </div>
