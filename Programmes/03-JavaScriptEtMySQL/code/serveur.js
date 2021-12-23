@@ -5,8 +5,7 @@ require("remedial");
 var querystring = require("querystring");
 var gestionPage = require("./js_serveur/gestionPage.js");
 
-var mysql = require('mysql');
-var bd = require("./js_serveur/bd.js");
+var questionnaireManager = require("./js_serveur/questionnaireManager.js");
 
 var gererServeur = function(requete,reponse) {
     var monUrl = url.parse(requete.url);
@@ -18,12 +17,8 @@ var gererServeur = function(requete,reponse) {
         gestionPage.envoyerDataToUser();
     }
 
-    bd.connexion();
-    bd.instance.query('SELECT * FROM question', function (error, results, fields) {
-        if (error) throw error;
-        console.log('Les questions sont : ', results);
-    });
-    bd.deconnexion();       
+    questionnaireManager.afficherQuestions();
+ 
 }
 
 var serveur = http.createServer(gererServeur);
