@@ -54,12 +54,33 @@ var questionnaireManager = {
         bd.deconnexion();
     },
 
+    gererCreationQuestionnaire : function() {
+        var validation = "";
+        if(gestionPage.queryString.confirm === "yes") {
+            validation += '<div class="alert alert-success" role="alert">';
+            validation += 'La question a bien été créée en BD';
+            validation += '</div>';
+        }
+        gestionPage.objetToSupplant.validationSaisie = validation;
+        gestionPage.envoyerDataToUser();
+    },
+
     creerQuestionBD : function(info) {
         bd.connexion();
         var req = "INSERT INTO question (descriptionQuestion,reponseAQuestion,reponseBQuestion,reponseCQuestion,reponseDQuestion,bonneReponseQuestion,idquestionnaire) VALUES (?,?,?,?,?,?,?);";
         bd.instance.query(req, [info.question, info.reponseA, info.reponseB, info.reponseC, info.reponseD, info.bonneReponse, parseInt(info.questionnaire)] , function (error, results, fields) {
             if (error) throw error;
             gestionPage.reponse.end("<script>document.location.href='creerQuestion.html?confirm=yes'</script>")
+        });
+        bd.deconnexion();
+    },
+
+    creerQuestionnaireBD : function (info) {
+        bd.connexion();
+        var req = "INSERT INTO questionnaire (nomQuestionnaire,descriptionQuestionnaire) VALUES (?,?);";
+        bd.instance.query(req, [info.questionnaire, info.description] , function (error, results, fields) {
+            if (error) throw error;
+            gestionPage.reponse.end("<script>document.location.href='creerQuestionnaire.html?confirm=yes'</script>")
         });
         bd.deconnexion();
     }

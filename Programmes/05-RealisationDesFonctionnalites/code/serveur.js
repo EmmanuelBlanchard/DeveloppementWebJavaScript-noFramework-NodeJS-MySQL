@@ -20,7 +20,11 @@ var gererServeur = function(requete,reponse) {
         });
         requete.on("end", () => {
             var obj = querystring.parse(body);
-            questionnaireManager.creerQuestionBD(obj);
+            if(monUrl.pathname === "/validationCreationQuestion.html") {
+                questionnaireManager.creerQuestionBD(obj);
+            } else if(monUrl.pathname === "/validationCreationQuestionnaire.html") {
+                questionnaireManager.creerQuestionnaireBD(obj);
+            }
         })
     } else {
         if(gestionPage.url.pathname !== "/favicon.ico") {
@@ -35,6 +39,8 @@ function gererFichier() {
             questionnaireManager.afficherQuestions();
         } else if(gestionPage.url.pathname === "/creerQuestion.html") {
             questionnaireManager.gererCreationQuestions();
+        } else if(gestionPage.url.pathname ==="/creerQuestionnaire.html") {
+            questionnaireManager.gererCreationQuestionnaire();
         } else {
             gestionPage.envoyerDataToUser();
         }
