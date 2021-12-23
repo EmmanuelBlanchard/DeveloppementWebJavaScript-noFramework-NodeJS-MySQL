@@ -28,6 +28,22 @@ var questionnaireManager = {
             gestionPage.envoyerDataToUser();
         });
         bd.deconnexion();
+    },
+
+    gererCreationQuestions : function() {
+        bd.connexion();
+        var req = "SELECT * FROM questionnaire";
+        bd.instance.query(req, function (error, results, fields) {
+            var optionTxt = "<option></option>";
+            for(var ligne of results) {
+                optionTxt += "<option value='" + ligne.idquestionnaire + "'>";
+                optionTxt += ligne.nomQuestionnaire + " : " + ligne.descriptionQuestionnaire;
+                optionTxt += "</option>";
+            }
+            gestionPage.objetToSupplant.optionQuestionnaires = optionTxt;
+            gestionPage.envoyerDataToUser();
+        });
+        bd.deconnexion();
     }
    
 }
