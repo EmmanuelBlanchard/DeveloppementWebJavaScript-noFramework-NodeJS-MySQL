@@ -34,8 +34,8 @@ var questionnaireManager = {
         var req = "SELECT q1.idquestionnaire, nomQuestionnaire,descriptionQuestionnaire, count(idquestion) as 'nbQuestion' FROM questionnaire q1 LEFT JOIN question q2 ON q1.idquestionnaire = q2.idquestionnaire GROUP BY q1.idquestionnaire, nomQuestionnaire,descriptionQuestionnaire";
         bd.instance.query(req, function (error, results, fields) {
             if (error) throw error;
-            var txt ="";
-            for(var questionnaire of results){
+            var txt = "";
+            for(var questionnaire of results) {
                 txt +="<tr>";
                     txt +='<th scope="row">'+questionnaire['idquestionnaire']+'</th>';
                     txt +='<td>'+questionnaire['nomQuestionnaire']+'</td>';
@@ -52,6 +52,13 @@ var questionnaireManager = {
                     txt += '</td>';
                 txt +='</tr>';
             }
+            var alertSup = "";
+            if(gestionPage.queryString.suppr === "yes") {
+                alertSup += '<div class="alert alert-success" role="alert">';
+                alertSup += 'Le questionnaire a bien été supprimé';
+                alertSup += '</div>';
+            }
+            gestionPage.objetToSupplant.supMessage = alertSup;
             gestionPage.objetToSupplant.Questionnaires = txt;
             gestionPage.envoyerDataToUser();
         });
@@ -109,6 +116,16 @@ var questionnaireManager = {
         bd.instance.query(req, [info.questionnaire, info.description] , function (error, results, fields) {
             if (error) throw error;
             gestionPage.reponse.end("<script>document.location.href='creerQuestionnaire.html?confirm=yes'</script>")
+        });
+        bd.deconnexion();
+    },
+
+    supprimerQuestionnaireBD : function(info) {
+        bd.connexion();
+        var req = "DELETE FROM questionnaire WHERE idQuestionnaire = ?;";
+        bd.instance.query(req, [info.idQuestionnaire] , function (error, results, fields) {
+            if (error) throw error;
+            gestionPage.reponse.end("<script>document.location.href='afficherQuestionnaire.html?suppr=yes'</script>")
         });
         bd.deconnexion();
     }
