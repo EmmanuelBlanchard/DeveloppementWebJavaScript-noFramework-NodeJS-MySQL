@@ -35,9 +35,11 @@ var gererServeur = function(requete,reponse) {
 
 function gererFichier() {
     if(gestionPage.url.pathname ==="/" || gestionPage.extension ===".html") { // gestion d'une page HTML
-        if(gestionPage.url.pathname === "/afficherQuestion.html") {
+        if(gestionPage.url.pathname ==="/afficherQuestion.html") {
             questionnaireManager.afficherQuestions();
-        } else if(gestionPage.url.pathname === "/creerQuestion.html") {
+        } else if(gestionPage.url.pathname ==="/afficherQuestionnaire.html") {
+            questionnaireManager.afficherQuestionnaire();
+        } else if(gestionPage.url.pathname ==="/creerQuestion.html") {
             questionnaireManager.gererCreationQuestions();
         } else if(gestionPage.url.pathname ==="/creerQuestionnaire.html") {
             questionnaireManager.gererCreationQuestionnaire();

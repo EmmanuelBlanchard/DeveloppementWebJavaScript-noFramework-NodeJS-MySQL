@@ -10,7 +10,6 @@ var questionnaireManager = {
         var req = "SELECT idquestion, nomQuestionnaire, descriptionQuestion, reponseAQuestion, reponseBQuestion, reponseCQuestion, reponseDQuestion, bonneReponseQuestion FROM question INNER JOIN questionnaire ON question.idquestionnaire = questionnaire.idquestionnaire";
         bd.instance.query(req, function (error, results, fields) {
             if (error) throw error;
-            console.log('Les questions sont : ', results);
             var txt ="";
             for(var question of results){
                 txt +="<tr>";
@@ -25,6 +24,25 @@ var questionnaireManager = {
                 txt +='</tr>';
             }
             gestionPage.objetToSupplant.Questions = txt;
+            gestionPage.envoyerDataToUser();
+        });
+        bd.deconnexion();
+    },
+
+    afficherQuestionnaire : function() {
+        bd.connexion();
+        var req = "SELECT * FROM questionnaire";
+        bd.instance.query(req, function (error, results, fields) {
+            if (error) throw error;
+            var txt ="";
+            for(var questionnaire of results) {
+                txt +="<tr>";
+                    txt +='<th scope="row">'+questionnaire['idquestionnaire']+'</th>';
+                    txt +='<td>'+questionnaire['nomQuestionnaire']+'</td>';
+                    txt +='<td>'+questionnaire['descriptionQuestionnaire']+'</td>';
+                txt +='</tr>';
+            }
+            gestionPage.objetToSupplant.Questionnaires = txt;
             gestionPage.envoyerDataToUser();
         });
         bd.deconnexion();
