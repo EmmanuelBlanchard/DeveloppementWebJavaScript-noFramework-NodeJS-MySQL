@@ -41,6 +41,15 @@ var questionnaireManager = {
                     txt +='<td>'+questionnaire['nomQuestionnaire']+'</td>';
                     txt +='<td>'+questionnaire['descriptionQuestionnaire']+'</td>';
                     txt +='<td>'+questionnaire['nbQuestion']+'</td>';
+                    txt +='<td><img src="edit.png" /></td>';
+                    txt +='<td>';
+                        txt += '<form method="POST" action="suppressionQuestionnaire.html">';
+                            txt += '<input type="hidden" name="idQuestionnaire" value="'+questionnaire['idquestionnaire']+'" />';
+                            txt += '<button type="submit" class="buttonIMG">';
+                                txt += '<img src="delete.png" />';
+                            txt += '</button>';
+                        txt += '</form>';
+                    txt += '</td>';
                 txt +='</tr>';
             }
             gestionPage.objetToSupplant.Questionnaires = txt;
