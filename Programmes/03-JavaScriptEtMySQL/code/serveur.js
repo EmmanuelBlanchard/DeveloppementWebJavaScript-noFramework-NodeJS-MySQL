@@ -14,11 +14,20 @@ var gererServeur = function(requete,reponse) {
     gestionPage.initialisation(monUrl, extension, requete,reponse,urlQueryString);
     
     if(gestionPage.url.pathname !== "/favicon.ico") {
+        gererFichier();
+    }  
+}
+
+function gererFichier() {
+    if(gestionPage.url.pathname === "/" || gestionPage.extension === ".html") { // gestion d'une page HTML
+        if(gestionPage.url.pathname === "/afficherQuestion.html") {
+            questionnaireManager.afficherQuestions();
+        } else {
+            gestionPage.envoyerDataToUser();
+        }   
+    } else {
         gestionPage.envoyerDataToUser();
     }
-
-    questionnaireManager.afficherQuestions();
- 
 }
 
 var serveur = http.createServer(gererServeur);

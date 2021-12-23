@@ -1,6 +1,8 @@
 var mysql = require('mysql');
 var bd = require("./bd.js");
 
+var gestionPage = require("./gestionPage.js");
+
 var questionnaireManager = {
 
     afficherQuestions : function() {
@@ -10,6 +12,7 @@ var questionnaireManager = {
             console.log('Les questions sont : ', results);
         });
         bd.deconnexion();
+        gestionPage.envoyerDataToUser();
     }
    
 }
