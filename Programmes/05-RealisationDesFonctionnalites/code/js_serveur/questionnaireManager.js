@@ -31,15 +31,16 @@ var questionnaireManager = {
 
     afficherQuestionnaire : function() {
         bd.connexion();
-        var req = "SELECT * FROM questionnaire";
+        var req = "SELECT q1.idquestionnaire, nomQuestionnaire,descriptionQuestionnaire, count(idquestion) as 'nbQuestion' FROM questionnaire q1 LEFT JOIN question q2 ON q1.idquestionnaire = q2.idquestionnaire GROUP BY q1.idquestionnaire, nomQuestionnaire,descriptionQuestionnaire";
         bd.instance.query(req, function (error, results, fields) {
             if (error) throw error;
             var txt ="";
-            for(var questionnaire of results) {
+            for(var questionnaire of results){
                 txt +="<tr>";
                     txt +='<th scope="row">'+questionnaire['idquestionnaire']+'</th>';
                     txt +='<td>'+questionnaire['nomQuestionnaire']+'</td>';
                     txt +='<td>'+questionnaire['descriptionQuestionnaire']+'</td>';
+                    txt +='<td>'+questionnaire['nbQuestion']+'</td>';
                 txt +='</tr>';
             }
             gestionPage.objetToSupplant.Questionnaires = txt;
