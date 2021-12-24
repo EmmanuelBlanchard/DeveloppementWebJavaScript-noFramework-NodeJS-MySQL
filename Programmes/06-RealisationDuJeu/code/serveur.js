@@ -56,7 +56,7 @@ function gererFichier() {
         } else if(gestionPage.url.pathname ==="/creerQuestionnaire.html") {
             questionnaireManager.gererCreationQuestionnaire();
         } else if(gestionPage.url.pathname === "/jeu.html") {
-            questionnaireManager.gererQuestionJeu("Chats",2);
+            questionnaireManager.gererQuestionJeu("Chats",1);
         } else {
             gestionPage.envoyerDataToUser();
         }

@@ -3,21 +3,26 @@
     <p>Description du questionnaire : {descriptionQuestionnaire}</p>
     <div class="border rounded p-3">
         <h2>#{idQuestionBD} - Q{questionNumero} : {description}</h2>
+        <input type="hidden" name ="reponse" id="reponse" value="{bonneReponse}" />
         <div class="row m-2">
             <div class="col">
-                <button class="btn btn-primary">Reponse A : {reponseA}</button>
+                <button class="btn btn-primary" onClick ="verification('{bonneReponse}','{reponseA}', '{descriptionQuestionnaire}','{questionNumero}')">Reponse A : {reponseA}</button>
             </div>
             <div class="col">
-                <button class="btn btn-primary">Reponse B : {reponseB}</button>
+                <button class="btn btn-primary" onClick ="verification('{bonneReponse}','{reponseB}', '{descriptionQuestionnaire}','{questionNumero}')">Reponse B : {reponseB}</button>
             </div>
         </div>
         <div class="row m-2">
             <div class="col">
-                <button class="btn btn-primary">Reponse C : {reponseC}</button>
+                <button class="btn btn-primary" onClick ="verification('{bonneReponse}','{reponseC}', '{descriptionQuestionnaire}','{questionNumero}')">Reponse C : {reponseC}</button>
             </div>
             <div class="col">
-                <button class="btn btn-primary">Reponse D : {reponseD}</button>
+                <button class="btn btn-primary" onClick ="verification('{bonneReponse}','{reponseD}', '{descriptionQuestionnaire}','{questionNumero}')">Reponse D : {reponseD}</button>
             </div>
         </div>
     </div>
+    <div class="alert alert-danger mt-2 perso_hidden" role="alert">
+        Mauvaise réponse !
+    </div>
+    <script src="verificationQuestion.js"></script>
 </div>

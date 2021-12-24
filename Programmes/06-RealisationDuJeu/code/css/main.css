@@ -2,3 +2,7 @@
     background:none;
     border:none;
 }
+
+.perso_hidden {
+    display:none;
+}

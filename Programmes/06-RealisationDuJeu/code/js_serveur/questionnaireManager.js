@@ -265,7 +265,7 @@ var questionnaireManager = {
             if (error) throw error;
             gestionPage.objetToSupplant.descriptionQuestionnaire = results[0].nomQuestionnaire;
             gestionPage.objetToSupplant.idQuestionBD = results[0].idquestion;
-            gestionPage.objetToSupplant.questionNumero = "test";
+            gestionPage.objetToSupplant.questionNumero = idQuestion;
             gestionPage.objetToSupplant.description = results[0].descriptionQuestion;
             gestionPage.objetToSupplant.reponseA = results[0].reponseAQuestion;
             gestionPage.objetToSupplant.reponseB = results[0].reponseBQuestion;

@@ -40,7 +40,7 @@ var gestionPage = {
             data.contentType = "text/css";
             data.content = fs.readFileSync(dossier+this.url.pathname);
         } else if(this.extension === ".js") {
-            dossier = "js";
+            dossier = "js_client";
             data.contentType = "application/javascript";
             data.content = fs.readFileSync(dossier+this.url.pathname);
         } else if(this.extension === ".png") {
