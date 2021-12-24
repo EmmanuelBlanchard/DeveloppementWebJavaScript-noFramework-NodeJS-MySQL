@@ -146,7 +146,7 @@ var questionnaireManager = {
 
     creerQuestionBD : function(info) {
         bd.connexion();
-        var req = "INSERT INTO question (descriptionQuestion,reponseAQuestion,reponseBQuestion,reponseCQuestion,reponseDQuestion,bonneReponseQuestion,idquestionnaire) VALUES (?,?,?,?,?,?,?);";
+        var req = "INSERT INTO question (descriptionQuestion,reponseAQuestion,reponseBQuestion,reponseCQuestion,reponseDQuestion,bonneReponseQuestion,idQuestionnaire) VALUES (?,?,?,?,?,?,?);";
         bd.instance.query(req, [info.question, info.reponseA, info.reponseB, info.reponseC, info.reponseD, info.bonneReponse, parseInt(info.questionnaire)] , function (error, results, fields) {
             if (error) throw error;
             gestionPage.reponse.end("<script>document.location.href='creerQuestion.html?confirm=yes'</script>")
@@ -245,7 +245,18 @@ var questionnaireManager = {
             gestionPage.envoyerDataToUser();
         });
         bd.deconnexion();
-    }
+    },
+
+    //Modification en BD d'un question
+    modifierQuestionBD : function(info) {
+        bd.connexion();
+        var req = "UPDATE question SET descriptionQuestion = ?, reponseAQuestion = ?,reponseBQuestion = ?,reponseCQuestion = ?,reponseDQuestion = ?,bonneReponseQuestion = ?,idQuestionnaire = ? WHERE idquestion=?";
+        bd.instance.query(req, [info.description, info.reponseA, info.reponseB,info.reponseC,info.reponseD,info.bonneReponse,info.idQuestionnaire,info.idQuestion], function (error, results, fields) {
+            if (error) throw error;
+            gestionPage.reponse.end("<script>document.location.href='afficherQuestion.html?modif=yes'</script>")
+        });
+        bd.deconnexion();
+    },
    
 }
 module.exports = questionnaireManager;
