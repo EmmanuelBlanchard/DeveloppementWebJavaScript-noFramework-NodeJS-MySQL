@@ -56,7 +56,15 @@ function gererFichier() {
         } else if(gestionPage.url.pathname ==="/creerQuestionnaire.html") {
             questionnaireManager.gererCreationQuestionnaire();
         } else if(gestionPage.url.pathname === "/jeu.html") {
-            questionnaireManager.gererQuestionJeu("Chats",1);
+            if(!gestionPage.queryString.idquestionnaire) {
+                questionnaireManager.gererQuestionJeu("Chats",1);
+            } else {
+                if(!gestionPage.queryString.idquestion) {
+                    questionnaireManager.gererQuestionJeu(gestionPage.queryString.idquestionnaire,1);
+                } else {
+                    questionnaireManager.gererQuestionJeu(gestionPage.queryString.idquestionnaire,gestionPage.queryString.idquestion);
+                }
+            }
         } else {
             gestionPage.envoyerDataToUser();
         }
