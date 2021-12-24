@@ -1,6 +1,11 @@
 <div class="container">
     <h1 class="bg-primary text-white border border-dark mt-2 p-3 rounded-lg">Jeu de questionnaire</h1>
-    <p>Description du questionnaire : {descriptionQuestionnaire}</p>
+    <form class="m-2">
+        Questionnaire :
+        <select name="idQuestionnaire">
+            {optionGroupe}
+        </select>
+    </form>
     <div class="border rounded p-3">
         <h2>#{idQuestionBD} - Q{questionNumero} : {description}</h2>
         <input type="hidden" name ="reponse" id="reponse" value="{bonneReponse}" />

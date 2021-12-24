@@ -114,7 +114,7 @@ var questionnaireManager = {
         var req = "SELECT * FROM questionnaire";
         bd.instance.query(req, function (error, results, fields) {
             if(error) throw error;
-            var optionTxt = "<option></option>";
+            var optionTxt = "";
             for(var ligne of results) {
                 optionTxt += "<option value='" + ligne.idquestionnaire + "'>";
                 optionTxt += ligne.nomQuestionnaire + " : " + ligne.descriptionQuestionnaire;
@@ -262,17 +262,20 @@ var questionnaireManager = {
         bd.connexion();
         var req = "SELECT q1.idQuestionnaire,nomQuestionnaire,idquestion,descriptionQuestion,reponseAQuestion,reponseBQuestion,reponseCQuestion,reponseDQuestion,bonneReponseQuestion FROM question q1 INNER JOIN questionnaire q2 ON q1.idQuestionnaire = q2.idquestionnaire WHERE q2.nomQuestionnaire =? LIMIT 1 OFFSET ?";
         bd.instance.query(req, [questionnaire, (idQuestion-1)], function (error, results, fields) {
-            if (error) throw error;
-            gestionPage.objetToSupplant.descriptionQuestionnaire = results[0].nomQuestionnaire;
-            gestionPage.objetToSupplant.idQuestionBD = results[0].idquestion;
-            gestionPage.objetToSupplant.questionNumero = idQuestion;
-            gestionPage.objetToSupplant.description = results[0].descriptionQuestion;
-            gestionPage.objetToSupplant.reponseA = results[0].reponseAQuestion;
-            gestionPage.objetToSupplant.reponseB = results[0].reponseBQuestion;
-            gestionPage.objetToSupplant.reponseC = results[0].reponseCQuestion;
-            gestionPage.objetToSupplant.reponseD = results[0].reponseDQuestion;
-            gestionPage.objetToSupplant.bonneReponse = results[0].bonneReponseQuestion;
-            gestionPage.envoyerDataToUser();
+            if(results.length <1) {
+                gestionPage.reponse.end("<script>document.location.href='index.html'</script>")
+            } else {
+                gestionPage.objetToSupplant.descriptionQuestionnaire = results[0].nomQuestionnaire;
+                gestionPage.objetToSupplant.idQuestionBD = results[0].idquestion;
+                gestionPage.objetToSupplant.questionNumero = idQuestion;
+                gestionPage.objetToSupplant.description = results[0].descriptionQuestion;
+                gestionPage.objetToSupplant.reponseA = results[0].reponseAQuestion;
+                gestionPage.objetToSupplant.reponseB = results[0].reponseBQuestion;
+                gestionPage.objetToSupplant.reponseC = results[0].reponseCQuestion;
+                gestionPage.objetToSupplant.reponseD = results[0].reponseDQuestion;
+                gestionPage.objetToSupplant.bonneReponse = results[0].bonneReponseQuestion;
+                questionnaireManager.listeQuestionnaire(results[0].idQuestionnaire);
+            }   
         });
         bd.deconnexion();
     }
