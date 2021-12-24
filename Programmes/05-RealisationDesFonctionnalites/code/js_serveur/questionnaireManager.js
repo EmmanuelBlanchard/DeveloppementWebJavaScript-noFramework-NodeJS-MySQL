@@ -207,6 +207,44 @@ var questionnaireManager = {
             gestionPage.reponse.end("<script>document.location.href='afficherQuestion.html?suppr=yes'</script>")
         });
         bd.deconnexion();
+    },
+
+    modifierQuestion : function(info) {
+        bd.connexion();
+        var req = "SELECT idquestion,descriptionQuestion,reponseAQuestion,reponseBQuestion,reponseCQuestion,reponseDQuestion,bonneReponseQuestion,idQuestionnaire FROM question WHERE idquestion = ?";
+        bd.instance.query(req, [info.idQuestion], function (error, results, fields) {
+            if (error) throw error;
+            gestionPage.objetToSupplant.id = results[0].idquestion;
+            gestionPage.objetToSupplant.description = results[0].descriptionQuestion;
+            gestionPage.objetToSupplant.reponseA = results[0].reponseAQuestion;
+            gestionPage.objetToSupplant.reponseB = results[0].reponseBQuestion;
+            gestionPage.objetToSupplant.reponseC = results[0].reponseCQuestion;
+            gestionPage.objetToSupplant.reponseD = results[0].reponseDQuestion;
+            gestionPage.objetToSupplant.bonneReponse = results[0].bonneReponseQuestion;
+            questionnaireManager.listeQuestionnaire(results[0].idQuestionnaire);
+        });
+        bd.deconnexion();
+    },
+
+    listeQuestionnaire : function(idQuestionnaire) {
+        bd.connexion();
+        var req = "SELECT * FROM questionnaire";
+        bd.instance.query(req, function (error, results, fields) {
+            if (error) throw error;
+            var txt ="";
+            for(var questionnaire of results) {
+                if(idQuestionnaire === questionnaire.idquestionnaire) {
+                    txt +="<option value ='" + questionnaire.idquestionnaire + "' selected>";
+                } else {
+                    txt +="<option value ='" + questionnaire.idquestionnaire + "'>";
+                }
+                txt += questionnaire.nomQuestionnaire + " - " + questionnaire.descriptionQuestionnaire ;
+                txt +="</option>";
+            }
+            gestionPage.objetToSupplant.optionGroupe = txt;
+            gestionPage.envoyerDataToUser();
+        });
+        bd.deconnexion();
     }
    
 }
