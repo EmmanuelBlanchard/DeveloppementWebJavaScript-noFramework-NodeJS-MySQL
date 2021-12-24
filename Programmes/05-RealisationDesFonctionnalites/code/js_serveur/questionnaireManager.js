@@ -11,7 +11,7 @@ var questionnaireManager = {
         bd.instance.query(req, function (error, results, fields) {
             if (error) throw error;
             var txt ="";
-            for(var question of results){
+            for(var question of results) {
                 txt +="<tr>";
                     txt +='<th scope="row">'+question['idquestion']+'</th>';
                     txt +='<td>'+question['nomQuestionnaire']+'</td>';
@@ -21,8 +21,38 @@ var questionnaireManager = {
                     txt +='<td>'+question['reponseCQuestion']+'</td>';
                     txt +='<td>'+question['reponseDQuestion']+'</td>';
                     txt +='<td>'+question['bonneReponseQuestion']+'</td>';
+                    txt +='<td>';
+                        txt += '<form method="POST" action="modificationQuestion.html">';
+                            txt += '<input type="hidden" name="idQuestion" value="'+question['idquestion']+'" />';
+                            txt += '<button type="submit" class="buttonIMG">';
+                                txt += '<img src="edit.png" />';
+                            txt += '</button>';
+                        txt += '</form>';
+                    txt += '</td>';
+                    txt +='<td>';
+                        txt += '<form method="POST" action="suppressionQuestion.html">';
+                            txt += '<input type="hidden" name="idQuestion" value="'+question['idquestion']+'" />';
+                            txt += '<button type="submit" class="buttonIMG">';
+                                txt += '<img src="delete.png" />';
+                            txt += '</button>';
+                        txt += '</form>';
+                    txt += '</td>';
                 txt +='</tr>';
             }
+            var alertSup ="";
+            if(gestionPage.queryString.suppr === "yes") {
+                alertSup += '<div class="alert alert-success" role="alert">';
+                alertSup += 'La question a bien été supprimée';
+                alertSup += '</div>';
+            }
+            var alertModif ="";
+            if(gestionPage.queryString.modif === "yes") {
+                alertModif += '<div class="alert alert-success" role="alert">';
+                alertModif += 'La question a bien été modifiée';
+                alertModif += '</div>';
+            }
+            gestionPage.objetToSupplant.supMessage = alertSup;
+            gestionPage.objetToSupplant.modifMessage = alertModif;
             gestionPage.objetToSupplant.Questions = txt;
             gestionPage.envoyerDataToUser();
         });
@@ -35,7 +65,7 @@ var questionnaireManager = {
         bd.instance.query(req, function (error, results, fields) {
             if (error) throw error;
             var txt = "";
-            for(var questionnaire of results){
+            for(var questionnaire of results) {
                 txt +="<tr>";
                     txt +='<th scope="row">'+questionnaire['idquestionnaire']+'</th>';
                     txt +='<td>'+questionnaire['nomQuestionnaire']+'</td>';
@@ -165,6 +195,16 @@ var questionnaireManager = {
         bd.instance.query(req, [info.nomQuestionnaire, info.descriptionQuestionnaire, info.idQuestionnaire], function (error, results, fields) {
             if (error) throw error;
             gestionPage.reponse.end("<script>document.location.href='afficherQuestionnaire.html?modif=yes'</script>")
+        });
+        bd.deconnexion();
+    },
+
+    supprimerQuestionBD : function(info) {
+        bd.connexion();
+        var req = "DELETE FROM question WHERE idquestion = ?;";
+        bd.instance.query(req, [info.idQuestion] , function (error, results, fields) {
+            if (error) throw error;
+            gestionPage.reponse.end("<script>document.location.href='afficherQuestion.html?suppr=yes'</script>")
         });
         bd.deconnexion();
     }
