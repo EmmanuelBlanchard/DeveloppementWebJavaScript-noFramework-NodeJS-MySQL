@@ -65,7 +65,14 @@ var questionnaireManager = {
                 alertSup += 'Le questionnaire a bien été supprimé';
                 alertSup += '</div>';
             }
+            var alertModif ="";
+            if(gestionPage.queryString.modif === "yes") {
+                alertModif += '<div class="alert alert-success" role="alert">';
+                alertModif += 'Le questionnaire a bien été modifié';
+                alertModif += '</div>';
+            }
             gestionPage.objetToSupplant.supMessage = alertSup;
+            gestionPage.objetToSupplant.modifMessage = alertModif;
             gestionPage.objetToSupplant.Questionnaires = txt;
             gestionPage.envoyerDataToUser();
         });
@@ -137,15 +144,27 @@ var questionnaireManager = {
         bd.deconnexion();
     },
 
+    //Gestion de la page permettant de modifier un questionnaire - Formulaire
     modifierQuestionnaire : function(info) {
         bd.connexion();
-        var req = "SELECT * FROM questionnaire WHERE idquestionnaire = ?";
+        var req = "SELECT * FROM questionnaire where idquestionnaire = ?";
         bd.instance.query(req, [info.idQuestionnaire], function (error, results, fields) {
             if (error) throw error;
             gestionPage.objetToSupplant.id = results[0].idquestionnaire;
             gestionPage.objetToSupplant.nomQuestionnaire = results[0].nomQuestionnaire;
             gestionPage.objetToSupplant.descriptionQuestionnaire = results[0].descriptionQuestionnaire;
             gestionPage.envoyerDataToUser();
+        });
+        bd.deconnexion();
+    },
+
+    //Modification en BD d'un questionnaire
+    modifierQuestionnaireBD : function(info) {
+        bd.connexion();
+        var req = "UPDATE questionnaire SET nomQuestionnaire = ?, descriptionQuestionnaire = ? WHERE idQuestionnaire=?";
+        bd.instance.query(req, [info.nomQuestionnaire, info.descriptionQuestionnaire, info.idQuestionnaire], function (error, results, fields) {
+            if (error) throw error;
+            gestionPage.reponse.end("<script>document.location.href='afficherQuestionnaire.html?modif=yes'</script>")
         });
         bd.deconnexion();
     }
