@@ -1,8 +1,8 @@
 <div class="container">
     <h1 class="bg-primary text-white border border-dark mt-2 p-3 rounded-lg">Jeu de questionnaire</h1>
-    <form class="m-2">
+    <form method="GET" action="jeu.html" class="m-2">
         Questionnaire :
-        <select name="idQuestionnaire">
+        <select name="idquestionnaire" onchange="submit()">
             {optionGroupe}
         </select>
     </form>
@@ -11,18 +11,18 @@
         <input type="hidden" name ="reponse" id="reponse" value="{bonneReponse}" />
         <div class="row m-2">
             <div class="col">
-                <button class="btn btn-primary" onClick ="verification('{bonneReponse}','{reponseA}', '{descriptionQuestionnaire}','{questionNumero}')">Reponse A : {reponseA}</button>
+                <button class="btn btn-primary" onClick="verification('{bonneReponse}','{reponseA}', '{idQuestionnaire}','{questionNumero}')">Reponse A : {reponseA}</button>
             </div>
             <div class="col">
-                <button class="btn btn-primary" onClick ="verification('{bonneReponse}','{reponseB}', '{descriptionQuestionnaire}','{questionNumero}')">Reponse B : {reponseB}</button>
+                <button class="btn btn-primary" onClick="verification('{bonneReponse}','{reponseB}', '{idQuestionnaire}','{questionNumero}')">Reponse B : {reponseB}</button>
             </div>
         </div>
         <div class="row m-2">
             <div class="col">
-                <button class="btn btn-primary" onClick ="verification('{bonneReponse}','{reponseC}', '{descriptionQuestionnaire}','{questionNumero}')">Reponse C : {reponseC}</button>
+                <button class="btn btn-primary" onClick="verification('{bonneReponse}','{reponseC}', '{idQuestionnaire}','{questionNumero}')">Reponse C : {reponseC}</button>
             </div>
             <div class="col">
-                <button class="btn btn-primary" onClick ="verification('{bonneReponse}','{reponseD}', '{descriptionQuestionnaire}','{questionNumero}')">Reponse D : {reponseD}</button>
+                <button class="btn btn-primary" onClick="verification('{bonneReponse}','{reponseD}', '{idQuestionnaire}','{questionNumero}')">Reponse D : {reponseD}</button>
             </div>
         </div>
     </div>

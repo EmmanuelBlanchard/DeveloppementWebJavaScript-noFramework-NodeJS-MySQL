@@ -260,11 +260,12 @@ var questionnaireManager = {
 
     gererQuestionJeu : function(questionnaire, idQuestion) {
         bd.connexion();
-        var req = "SELECT q1.idQuestionnaire,nomQuestionnaire,idquestion,descriptionQuestion,reponseAQuestion,reponseBQuestion,reponseCQuestion,reponseDQuestion,bonneReponseQuestion FROM question q1 INNER JOIN questionnaire q2 ON q1.idQuestionnaire = q2.idquestionnaire WHERE q2.nomQuestionnaire =? LIMIT 1 OFFSET ?";
+        var req = "SELECT q1.idQuestionnaire,nomQuestionnaire,idquestion,descriptionQuestion,reponseAQuestion,reponseBQuestion,reponseCQuestion,reponseDQuestion,bonneReponseQuestion FROM question q1 INNER JOIN questionnaire q2 ON q1.idQuestionnaire = q2.idquestionnaire WHERE q2.idquestionnaire =? LIMIT 1 OFFSET ?";
         bd.instance.query(req, [questionnaire, (idQuestion-1)], function (error, results, fields) {
             if(results.length <1) {
                 gestionPage.reponse.end("<script>document.location.href='index.html'</script>")
             } else {
+                gestionPage.objetToSupplant.idQuestionnaire = results[0].idQuestionnaire;
                 gestionPage.objetToSupplant.descriptionQuestionnaire = results[0].nomQuestionnaire;
                 gestionPage.objetToSupplant.idQuestionBD = results[0].idquestion;
                 gestionPage.objetToSupplant.questionNumero = idQuestion;
