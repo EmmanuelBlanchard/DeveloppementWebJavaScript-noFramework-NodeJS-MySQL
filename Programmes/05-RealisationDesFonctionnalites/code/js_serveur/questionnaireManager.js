@@ -35,13 +35,20 @@ var questionnaireManager = {
         bd.instance.query(req, function (error, results, fields) {
             if (error) throw error;
             var txt = "";
-            for(var questionnaire of results) {
+            for(var questionnaire of results){
                 txt +="<tr>";
                     txt +='<th scope="row">'+questionnaire['idquestionnaire']+'</th>';
                     txt +='<td>'+questionnaire['nomQuestionnaire']+'</td>';
                     txt +='<td>'+questionnaire['descriptionQuestionnaire']+'</td>';
                     txt +='<td>'+questionnaire['nbQuestion']+'</td>';
-                    txt +='<td><img src="edit.png" /></td>';
+                    txt +='<td>';
+                        txt += '<form method="POST" action="modificationQuestionnaire.html">';
+                            txt += '<input type="hidden" name="idQuestionnaire" value="'+questionnaire['idquestionnaire']+'" />';
+                            txt += '<button type="submit" class="buttonIMG">';
+                                txt += '<img src="edit.png" />';
+                            txt += '</button>';
+                        txt += '</form>';
+                    txt += '</td>';
                     txt +='<td>';
                         txt += '<form method="POST" action="suppressionQuestionnaire.html">';
                             txt += '<input type="hidden" name="idQuestionnaire" value="'+questionnaire['idquestionnaire']+'" />';
@@ -126,6 +133,19 @@ var questionnaireManager = {
         bd.instance.query(req, [info.idQuestionnaire] , function (error, results, fields) {
             if (error) throw error;
             gestionPage.reponse.end("<script>document.location.href='afficherQuestionnaire.html?suppr=yes'</script>")
+        });
+        bd.deconnexion();
+    },
+
+    modifierQuestionnaire : function(info) {
+        bd.connexion();
+        var req = "SELECT * FROM questionnaire WHERE idquestionnaire = ?";
+        bd.instance.query(req, [info.idQuestionnaire], function (error, results, fields) {
+            if (error) throw error;
+            gestionPage.objetToSupplant.id = results[0].idquestionnaire;
+            gestionPage.objetToSupplant.nomQuestionnaire = results[0].nomQuestionnaire;
+            gestionPage.objetToSupplant.descriptionQuestionnaire = results[0].descriptionQuestionnaire;
+            gestionPage.envoyerDataToUser();
         });
         bd.deconnexion();
     }

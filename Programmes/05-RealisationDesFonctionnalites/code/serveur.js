@@ -26,6 +26,8 @@ var gererServeur = function(requete,reponse) {
                 questionnaireManager.creerQuestionnaireBD(obj);
             } else if(monUrl.pathname === "/suppressionQuestionnaire.html") {
                 questionnaireManager.supprimerQuestionnaireBD(obj);
+            } else if(monUrl.pathname=== "/modificationQuestionnaire.html") {
+                questionnaireManager.modifierQuestionnaire(obj);
             }
         })
     } else {
